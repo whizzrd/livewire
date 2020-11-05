@@ -3,7 +3,6 @@
 namespace Livewire\ComponentConcerns;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Model;
 use function Livewire\str;
 
 trait InteractsWithProperties
