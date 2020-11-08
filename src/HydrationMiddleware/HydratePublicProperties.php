@@ -111,7 +111,13 @@ class HydratePublicProperties implements HydrationMiddleware
             });
 
             foreach ($keys as $key) {
-                data_set($model, $key, data_get($dirtyModelData, $key));
+                if(method_exists($model, 'hasSetMutator')
+                    && $model->hasSetMutator($key)
+                    && method_exists($model, 'setAttribute')){
+                    $model->setAttribute($key, data_get($dirtyModelData, $key));
+                } else {
+                    data_set($model, $key, data_get($dirtyModelData, $key));
+                }
             }
         }
 
@@ -143,7 +149,13 @@ class HydratePublicProperties implements HydrationMiddleware
                 }
 
                 foreach ($keys as $key) {
-                    data_set($models[$index], $key, data_get($dirtyModelData[$index], $key));
+                    if(method_exists($models[$index], 'hasSetMutator')
+                        && $models[$index]->hasSetMutator($key)
+                        && method_exists($models[$index], 'setAttribute')){
+                        $models[$index]->setAttribute($key, data_get($dirtyModelData, $key));
+                    } else {
+                        data_set($models[$index], $key, data_get($dirtyModelData[$index], $key));
+                    }
                 }
             }
         }
